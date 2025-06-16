@@ -1,0 +1,34 @@
+### Criar usuário
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "name": "Gabriela",
+    "email": "iansilva@criança.com"
+}
+
+### Listar usuários
+
+GET http://localhost:3000/users
+
+### Criar cliente para um usuário
+
+POST http://localhost:3000/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients
+Content-Type: application/json
+
+{
+    "name": "criança 2",
+    "email": "criança@gmail.com",
+    "data": {
+        "info": "ao lado do pet shop"
+    }
+}
+
+### Listar clientes de um usuário
+
+GET http://localhost:3000/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients
+
+###
+
+DELETE http://localhost:3000/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91
