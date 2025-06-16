@@ -128,9 +128,11 @@ app.put("/users/:userId/clients/:clientId", async (req, res) => {
 // Deletar um cliente
 app.delete("/users/:userId/clients/:clientId", async (req, res) => {
   try {
-    const { clientId } = req.params;
+    const { clientId, name } = req.params;
     const result = await db.deleteClient(clientId);
-    res.json(result);
+    if (db.deleteClient == true) {
+      res.json(result);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message, body: req.body });
   }

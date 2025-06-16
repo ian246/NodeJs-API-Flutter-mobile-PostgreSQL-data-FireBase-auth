@@ -14,12 +14,12 @@ GET https://node-flutter-krtl.onrender.com/users
 
 ### Criar cliente para um usuário
 
-POST https://node-flutter-krtl.onrender.com/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients
+POST https://node-flutter-krtl.onrender.com/users/a93ed86c-966b-4119-8f40-25a882215476/clients
 Content-Type: application/json
 
 {
-    "name": "criança 2",
-    "email": "criança@gmail.com",
+    "name": "crianda2",
+    "email": "crianasa@gmail.com",
     "data": {
         "info": "ao lado do pet shop"
     }
@@ -27,8 +27,12 @@ Content-Type: application/json
 
 ### Listar clientes de um usuário
 
-GET https://node-flutter-krtl.onrender.com/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients
+GET https://node-flutter-krtl.onrender.com/users/a93ed86c-966b-4119-8f40-25a882215476/clients
 
 ###
 
 DELETE https://node-flutter-krtl.onrender.com/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91
+
+###
+
+DELETE https://node-flutter-krtl.onrender.com/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients/3
