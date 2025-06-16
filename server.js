@@ -3,8 +3,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import * as db from "./database-postgres.js";
-import { userSchema } from "./validations/user.schema.js";
-import { clientSchema } from "./validations/client.schema.js";
+import { userSchema } from "./src/validations/user.schema.js";
+import { clientSchema } from "./src/validations/client.schema.js";
 
 dotenv.config();
 
