@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
     "name": "Gabriela",
-    "email": "iansilva@criancaa.com",
+    "email": "iansilva@criancaa.com"
 }
 
 ### Listar usuários

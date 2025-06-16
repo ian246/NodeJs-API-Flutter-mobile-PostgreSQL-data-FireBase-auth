@@ -1,10 +1,7 @@
-// server.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import * as db from "./database-postgres.js";
-// import { userSchema } from "./src/validations/user.schema.js";
-// import { clientSchema } from "./src/validations/client.schema.js";
 
 dotenv.config();
 
@@ -23,21 +20,21 @@ app.use((err, req, res, next) => {
 // Criar usuário
 app.post("/users", async (req, res) => {
   try {
-    const { name, email } = value;
+    const { name, email } = req.body;
     const user = await db.createUser(name, email);
     res.status(201).json(user);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message, body: req.body });
   }
 });
 
 // Obter todos os usuários (com seus clientes)
-app.get("/users", async (res) => {
+app.get("/users", async (req, res) => {
   try {
     const usersWithClients = await db.getUsersWithClients();
     res.json(usersWithClients);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, body: req.body });
   }
 });
 
@@ -48,13 +45,15 @@ app.get("/users/:userId", async (req, res) => {
     const user = await db.getUser(userId);
 
     if (!user) {
-      return res.status(404).json({ error: "Usuário não encontrado" });
+      return res
+        .status(404)
+        .json({ error: "Usuário não encontrado", body: req.body });
     }
 
     const clients = await db.getClientsByUser(userId);
     res.json({ ...user, clients });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, body: req.body });
   }
 });
 
@@ -62,12 +61,11 @@ app.get("/users/:userId", async (req, res) => {
 app.put("/users/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    //! se os campos estiverem validos:
-    const { name, email } = value;
+    const { name, email } = req.body;
     const updatedUser = await db.updateUser(userId, name, email);
     res.json(updatedUser);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message, body: req.body });
   }
 });
 
@@ -78,7 +76,7 @@ app.delete("/users/:userId", async (req, res) => {
     const result = await db.deleteUser(userId);
     res.json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message, body: req.body });
   }
 });
 
@@ -88,18 +86,19 @@ app.delete("/users/:userId", async (req, res) => {
 app.post("/users/:userId/clients", async (req, res) => {
   try {
     const { userId } = req.params;
-    //! se os campos estiverem validos:
-    const { name, email, data } = value;
+    const { name, email, data } = req.body;
 
     const user = await db.getUser(userId);
     if (!user) {
-      return res.status(404).json({ error: "Usuário não encontrado" });
+      return res
+        .status(404)
+        .json({ error: "Usuário não encontrado", body: req.body });
     }
 
     const client = await db.createClient(userId, name, email, data);
     res.status(201).json(client);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message, body: req.body });
   }
 });
 
@@ -110,7 +109,7 @@ app.get("/users/:userId/clients", async (req, res) => {
     const clients = await db.getClientsByUser(userId);
     res.json(clients);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, body: req.body });
   }
 });
 
@@ -118,24 +117,26 @@ app.get("/users/:userId/clients", async (req, res) => {
 app.put("/users/:userId/clients/:clientId", async (req, res) => {
   try {
     const { clientId } = req.params;
-    const { name, email, data } = value;
+    const { name, email, data } = req.body;
     const updatedClient = await db.updateClient(clientId, name, email, data);
     res.json(updatedClient);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message, body: req.body });
   }
 });
 
+// Deletar um cliente
 app.delete("/users/:userId/clients/:clientId", async (req, res) => {
   try {
     const { clientId } = req.params;
     const result = await db.deleteClient(clientId);
     res.json(result);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message, body: req.body });
   }
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  host: "0.0.0.0", console.log(`Servidor rodando na porta ${PORT}`);
+  console.log("Servidor rodando na porta");
 });
