@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { clientSchema } from "./client.schema";
+import { clientSchema } from "./client.schema.js";
 
 export const userSchema = Joi.object({
   id: Joi.string()
