@@ -1,20 +1,20 @@
 ### Criar usuário
 
-POST http://localhost:3000/users
+POST https://node-flutter-krtl.onrender.com/users
 Content-Type: application/json
 
 {
     "name": "Gabriela",
-    "email": "iansilva@criança.com"
+    "email": "iansilva@criancaa.com",
 }
 
 ### Listar usuários
 
-GET http://localhost:3000/users
+GET https://node-flutter-krtl.onrender.com/users
 
 ### Criar cliente para um usuário
 
-POST http://localhost:3000/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients
+POST https://node-flutter-krtl.onrender.com/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients
 Content-Type: application/json
 
 {
@@ -27,8 +27,8 @@ Content-Type: application/json
 
 ### Listar clientes de um usuário
 
-GET http://localhost:3000/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients
+GET https://node-flutter-krtl.onrender.com/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients
 
 ###
 
-DELETE http://localhost:3000/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91
+DELETE https://node-flutter-krtl.onrender.com/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91

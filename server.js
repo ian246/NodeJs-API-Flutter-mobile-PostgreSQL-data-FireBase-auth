@@ -3,8 +3,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import * as db from "./database-postgres.js";
-import { userSchema } from "./src/validations/user.schema.js";
-import { clientSchema } from "./src/validations/client.schema.js";
+// import { userSchema } from "./src/validations/user.schema.js";
+// import { clientSchema } from "./src/validations/client.schema.js";
 
 dotenv.config();
 
@@ -22,22 +22,8 @@ app.use((err, req, res, next) => {
 
 // Criar usuário
 app.post("/users", async (req, res) => {
-  //!tratamentos, erro e validado
-  //! tratamento de erro, e sera passado dentro do
-  //! local que vai fazer a validação =>  (req.body)
-  const { error, value } = userSchema.validate(req.body);
-
-  if (error) {
-    return res
-      .status(400)
-      .json({ mensagem: "Erro de validação", detalhes: error.details });
-  }
-
   try {
-    //! valida => depois cria
-    //!se os campos de name e emial estiverem validos
     const { name, email } = value;
-    //! aqui ele cria
     const user = await db.createUser(name, email);
     res.status(201).json(user);
   } catch (error) {
@@ -46,7 +32,7 @@ app.post("/users", async (req, res) => {
 });
 
 // Obter todos os usuários (com seus clientes)
-app.get("/users", async (req, res) => {
+app.get("/users", async (res) => {
   try {
     const usersWithClients = await db.getUsersWithClients();
     res.json(usersWithClients);
@@ -74,15 +60,6 @@ app.get("/users/:userId", async (req, res) => {
 
 // Atualizar usuário
 app.put("/users/:userId", async (req, res) => {
-  //! capos de validação, passa o corpo para => validate(req.body)
-  const { error, value } = userSchema.validate(req.body);
-
-  if (error) {
-    return res
-      .status(400)
-      .json({ mensagem: "Erro de validação", detalhes: error.details });
-  }
-
   try {
     const { userId } = req.params;
     //! se os campos estiverem validos:
@@ -109,20 +86,6 @@ app.delete("/users/:userId", async (req, res) => {
 
 // Criar cliente para um usuário
 app.post("/users/:userId/clients", async (req, res) => {
-  const clienteParaValidar = {
-    ...req.body,
-    user_id: req.params.userId,
-  };
-  //! aqui eu estou passando uma variavel que no seu escopo aprensenta, o req.body
-  //! tratamentos, erros e validos
-  const { error, value } = clientSchema.validate(clienteParaValidar);
-
-  if (error) {
-    return res
-      .status(400)
-      .json({ mensagem: "Erro de validação", detalhes: error.details });
-  }
-
   try {
     const { userId } = req.params;
     //! se os campos estiverem validos:
@@ -153,20 +116,6 @@ app.get("/users/:userId/clients", async (req, res) => {
 
 // Atualizar um cliente
 app.put("/users/:userId/clients/:clientId", async (req, res) => {
-  const clienteParaValidar = {
-    ...req.body,
-    user_id: req.params.userId,
-    id: req.params.clientId,
-  };
-
-  const { error, value } = clientSchema.validate(clienteParaValidar);
-
-  if (error) {
-    return res
-      .status(400)
-      .json({ mensagem: "Erro de validação", detalhes: error.details });
-  }
-
   try {
     const { clientId } = req.params;
     const { name, email, data } = value;

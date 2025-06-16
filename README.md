@@ -1,7 +1,9 @@
 🚀 Visão Geral
 
 Este projeto consiste no desenvolvimento de uma API RESTful utilizando Node.js para servir como backend de um aplicativo móvel construído com Flutter 📱. A API está hospedada no Render.com ☁️ e utiliza um banco de dados PostgreSQL provisionado no Neon.tech 🗃️.
+
 🔧 Stack Tecnológica
+
 
     Backend: Node.js com Express.js 🛠️
 
@@ -11,7 +13,9 @@ Este projeto consiste no desenvolvimento de uma API RESTful utilizando Node.js p
 
     Cliente: Aplicativo Flutter (frontend móvel) 📲
 
+
 🎯 Funcionalidades Principais
+
 
     🔐 Autenticação de usuários (JWT)
 
@@ -23,8 +27,10 @@ Este projeto consiste no desenvolvimento de uma API RESTful utilizando Node.js p
 
     🛡️ Integração segura com o aplicativo Flutter
 
+
 ⚙️ Infraestrutura
 Banco de Dados: PostgreSQL no Neon.tech 🗄️
+
 
     🌐 Conexão serverless
 
@@ -32,7 +38,9 @@ Banco de Dados: PostgreSQL no Neon.tech 🗄️
 
     📊 Painel de monitoramento integrado
 
-Hospedagem API: Render.com ☁️
+
+ ☁️ Hospedagem API: Render.com 
+
 
     🔄 Deploy contínuo a partir do repositório Git
 
@@ -40,7 +48,9 @@ Hospedagem API: Render.com ☁️
 
     🔒 SSL automático
 
+
 🏗️ Arquitetura
+
 
     Camada de Roteamento 🛣️ → Define os endpoints da API
 
@@ -51,5 +61,7 @@ Hospedagem API: Render.com ☁️
     Camada de Repositório 📂 → Acesso ao PostgreSQL via query builder (Knex.js ou similar)
 
     Middleware 🔄 → Autenticação, validação e tratamento de erros
+
+
 
 ✨ Pronto para escalar e integrar com seu app Flutter! ✨
