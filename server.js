@@ -177,7 +177,6 @@ app.put("/users/:userId/clients/:clientId", async (req, res) => {
   }
 });
 
-// Deletar um cliente
 app.delete("/users/:userId/clients/:clientId", async (req, res) => {
   try {
     const { clientId } = req.params;
