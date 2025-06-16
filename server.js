@@ -1,7 +1,10 @@
+// server.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import * as db from "./database-postgres.js";
+import { userSchema } from "./validations/user.schema.js";
+import { clientSchema } from "./validations/client.schema.js";
 
 dotenv.config();
 
@@ -19,8 +22,22 @@ app.use((err, req, res, next) => {
 
 // Criar usuário
 app.post("/users", async (req, res) => {
+  //!tratamentos, erro e validado
+  //! tratamento de erro, e sera passado dentro do
+  //! local que vai fazer a validação =>  (req.body)
+  const { error, value } = userSchema.validate(req.body);
+
+  if (error) {
+    return res
+      .status(400)
+      .json({ mensagem: "Erro de validação", detalhes: error.details });
+  }
+
   try {
-    const { name, email } = req.body;
+    //! valida => depois cria
+    //!se os campos de name e emial estiverem validos
+    const { name, email } = value;
+    //! aqui ele cria
     const user = await db.createUser(name, email);
     res.status(201).json(user);
   } catch (error) {
@@ -57,9 +74,19 @@ app.get("/users/:userId", async (req, res) => {
 
 // Atualizar usuário
 app.put("/users/:userId", async (req, res) => {
+  //! capos de validação, passa o corpo para => validate(req.body)
+  const { error, value } = userSchema.validate(req.body);
+
+  if (error) {
+    return res
+      .status(400)
+      .json({ mensagem: "Erro de validação", detalhes: error.details });
+  }
+
   try {
     const { userId } = req.params;
-    const { name, email } = req.body;
+    //! se os campos estiverem validos:
+    const { name, email } = value;
     const updatedUser = await db.updateUser(userId, name, email);
     res.json(updatedUser);
   } catch (error) {
@@ -82,11 +109,25 @@ app.delete("/users/:userId", async (req, res) => {
 
 // Criar cliente para um usuário
 app.post("/users/:userId/clients", async (req, res) => {
+  const clienteParaValidar = {
+    ...req.body,
+    user_id: req.params.userId,
+  };
+  //! aqui eu estou passando uma variavel que no seu escopo aprensenta, o req.body
+  //! tratamentos, erros e validos
+  const { error, value } = clientSchema.validate(clienteParaValidar);
+
+  if (error) {
+    return res
+      .status(400)
+      .json({ mensagem: "Erro de validação", detalhes: error.details });
+  }
+
   try {
     const { userId } = req.params;
-    const { name, email, data } = req.body;
+    //! se os campos estiverem validos:
+    const { name, email, data } = value;
 
-    // Verifica se o usuário existe
     const user = await db.getUser(userId);
     if (!user) {
       return res.status(404).json({ error: "Usuário não encontrado" });
@@ -112,9 +153,23 @@ app.get("/users/:userId/clients", async (req, res) => {
 
 // Atualizar um cliente
 app.put("/users/:userId/clients/:clientId", async (req, res) => {
+  const clienteParaValidar = {
+    ...req.body,
+    user_id: req.params.userId,
+    id: req.params.clientId,
+  };
+
+  const { error, value } = clientSchema.validate(clienteParaValidar);
+
+  if (error) {
+    return res
+      .status(400)
+      .json({ mensagem: "Erro de validação", detalhes: error.details });
+  }
+
   try {
     const { clientId } = req.params;
-    const { name, email, data } = req.body;
+    const { name, email, data } = value;
     const updatedClient = await db.updateClient(clientId, name, email, data);
     res.json(updatedClient);
   } catch (error) {
@@ -132,7 +187,6 @@ app.delete("/users/:userId/clients/:clientId", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   host: "0.0.0.0", console.log(`Servidor rodando na porta ${PORT}`);
