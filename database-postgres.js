@@ -1,12 +1,10 @@
 import sql from "./src/config/db.js";
-import { randomUUID } from "crypto";
 
 //! Usuários
 
-export async function createUser(name, email) {
-  const userId = randomUUID();
-  await sql`INSERT INTO users (id, name, email) VALUES (${userId}, ${name}, ${email})`;
-  return { id: userId, name, email };
+export async function createUser(uid, email) {
+  await sql`INSERT INTO users (id, email) VALUES (${uid}, ${email})`;
+  return { id: uid, email };
 }
 
 export async function updateUser(userId, name, email) {
@@ -30,7 +28,7 @@ export async function getAllUsers() {
 
 //! Clientes
 
-export async function createClient(userId, name, email, data = {}) {
+export async function createClient(userId, name, email, data = "") {
   const [client] = await sql`
     INSERT INTO clients (name, email, user_id, data) 
     VALUES (${name}, ${email}, ${userId}, ${data})
@@ -38,7 +36,6 @@ export async function createClient(userId, name, email, data = {}) {
   `;
   return client;
 }
-
 export async function updateClient(clientId, name, email, data) {
   const [client] = await sql`
     UPDATE clients 
