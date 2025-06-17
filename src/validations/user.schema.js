@@ -6,3 +6,7 @@ export const userSchema = Joi.object({
   email: Joi.string().email().required(),
   clients: Joi.array().items(clientSchema).optional(),
 });
+
+
+
+
