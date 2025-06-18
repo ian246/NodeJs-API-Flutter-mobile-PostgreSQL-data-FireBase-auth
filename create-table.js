@@ -5,7 +5,7 @@ import sql from "./src/config/db.js";
     // Criar a tabela users
     await sql`
       CREATE TABLE IF NOT EXISTS users (
-        id TEXT PRIMARY KEY, -- uid do Firebase
+        id TEXT PRIMARY KEY, 
         name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
