@@ -2,14 +2,23 @@ import sql from "./src/config/db.js";
 
 //! Usuários
 
-export async function createUser(uid, email) {
-  await sql`INSERT INTO users (id, email) VALUES (${uid}, ${email})`;
-  return { id: uid, email };
+export async function createUser({ id, email, name }) {
+  const [user] = await sql`
+    INSERT INTO users (id, email, name) 
+    VALUES (${id}, ${email}, ${name})
+    RETURNING *
+  `;
+  return user;
 }
 
 export async function updateUser(userId, name, email) {
-  await sql`UPDATE users SET name = ${name}, email = ${email} WHERE id = ${userId}`;
-  return { id: userId, name, email };
+  const [user] = await sql`
+    UPDATE users 
+    SET name = ${name}, email = ${email}, updated_at = NOW() 
+    WHERE id = ${userId}
+    RETURNING *
+  `;
+  return user;
 }
 
 export async function deleteUser(userId) {
@@ -22,10 +31,13 @@ export async function getUser(userId) {
   return user;
 }
 
+export async function updateUserLastLogin(userId) {
+  await sql`UPDATE users SET last_login = NOW() WHERE id = ${userId}`;
+}
+
 export async function getAllUsers() {
   return await sql`SELECT * FROM users`;
 }
-
 //! Clientes
 
 export async function createClient(userId, name, email, data = "") {
@@ -73,6 +85,21 @@ export async function getUsersWithClients() {
       };
     })
   );
+  
 
   return usersWithClients;
+}
+
+export async function getUsersWithClients() {
+  const users = await sql`
+    SELECT u.*, 
+           COALESCE(
+             (SELECT json_agg(c.*) 
+              FROM clients c 
+              WHERE c.user_id = u.id), 
+             '[]'::json
+           ) as clients
+    FROM users u
+  `;
+  return users;
 }

@@ -20,8 +20,8 @@ app.use((err, req, res, next) => {
 app.use(authenticateToken);
 
 //! Rotas de Usuários
-
 // Obter todos os usuários (com seus clientes)
+
 app.get("/users", async (req, res) => {
   try {
     const usersWithClients = await db.getUsersWithClients();
@@ -96,6 +96,7 @@ app.get("/clients", async (req, res) => {
   }
 });
 
+
 // Atualizar um cliente do usuário autenticado
 app.put("/clients/:clientId", async (req, res) => {
   try {
@@ -116,6 +117,11 @@ app.delete("/clients/:clientId", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+});
+
+
+app.get('/protected-route', authenticateToken, (req, res) => {
+  res.json({ message: 'Acesso autorizado', user: req.user });
 });
 
 const PORT = process.env.PORT || 3000;

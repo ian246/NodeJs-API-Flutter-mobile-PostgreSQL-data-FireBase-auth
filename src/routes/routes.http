@@ -1,6 +1,6 @@
 ### Criar usuário
 
-POST https://node-flutter-krtl.onrender.com/users
+POST https://nodejs-api-flutter-mobile-postgresql.onrender.com
 Content-Type: application/json
 
 {
@@ -10,11 +10,11 @@ Content-Type: application/json
 
 ### Listar usuários
 
-GET https://node-flutter-krtl.onrender.com/users
+GET https://nodejs-api-flutter-mobile-postgresql.onrender.com/users
 
 ### Criar cliente para um usuário
 
-POST https://node-flutter-krtl.onrender.com/users/a93ed86c-966b-4119-8f40-25a882215476/clients
+POST https://nodejs-api-flutter-mobile-postgresql.onrender.com/users/a93ed86c-966b-4119-8f40-25a882215476/clients
 Content-Type: application/json
 
 {
@@ -27,12 +27,12 @@ Content-Type: application/json
 
 ### Listar clientes de um usuário
 
-GET https://node-flutter-krtl.onrender.com/users/a93ed86c-966b-4119-8f40-25a882215476/clients
+GET https://nodejs-api-flutter-mobile-postgresql.onrender.com/users/a93ed86c-966b-4119-8f40-25a882215476/clients
 
 ###
 
-DELETE https://node-flutter-krtl.onrender.com/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91
+DELETE https://nodejs-api-flutter-mobile-postgresql.onrender.com/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91
 
 ###
 
-DELETE https://node-flutter-krtl.onrender.com/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients/3
+DELETE https://nodejs-api-flutter-mobile-postgresql.onrender.com/users/6c9a1d6a-4190-42f4-b648-49a4a07d0a91/clients/3
