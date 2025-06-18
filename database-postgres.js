@@ -74,21 +74,6 @@ export async function getClientsByUser(userId) {
 
 //! Função para obter a estrutura Users --- clients
 
-export async function getUsersWithClients() {
-  const users = await getAllUsers();
-  const usersWithClients = await Promise.all(
-    users.map(async (user) => {
-      const clients = await getClientsByUser(user.id);
-      return {
-        ...user,
-        clients,
-      };
-    })
-  );
-  
-
-  return usersWithClients;
-}
 
 export async function getUsersWithClients() {
   const users = await sql`
